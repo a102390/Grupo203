@@ -1,0 +1,194 @@
+---
+import Head from "@components/_head.astro";
+import Scripts from "@components/_scripts.astro";
+
+const title = "AdminLTE 4 | Login Page v2";
+const path = "../../../dist";
+const htmlPath = "..";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <!--begin::Head-->
+  <head>
+    <Head title={title} path={path} />
+  </head>
+  <!--end::Head-->
+  <!--begin::Body-->
+  <body class="login-page bg-body-secondary">
+    <div class="login-box">
+      <div class="card card-outline card-primary">
+        <div class="card-header">
+          <a href={htmlPath + "/index2.html"} class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover">
+            <h1 class="mb-0">
+              <b>Admin</b>LTE
+            </h1>
+          </a>
+        </div>
+        <div class="card-body login-card-body">
+          <p class="login-box-msg">Sign in to start your session</p>
+
+          <form action={htmlPath + "/index3.html"} method="post">
+            <div class="input-group mb-1">
+              <div class="form-floating">
+                <input id="loginEmail" type="email" class="form-control" value="" placeholder="" />
+                <label for="loginEmail">Email</label>
+              </div>
+              <div class="input-group-text">
+                <span class="bi bi-envelope"></span>
+              </div>
+            </div>
+            <div class="input-group mb-1">
+              <div class="form-floating">
+                <input
+                  id="loginPassword"
+                  type="password"
+                  class="form-control"
+                  placeholder=""
+                />
+                <label for="loginPassword">Password</label>
+              </div>
+              <div class="input-group-text">
+                <span class="bi bi-lock-fill"></span>
+              </div>
+            </div>
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-8 d-inline-flex align-items-center">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexCheckDefault">
+                    Remember Me
+                  </label>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-4">
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!--end::Row-->
+          </form>
+
+          <div class="social-auth-links text-center mb-3 d-grid gap-2">
+            <p>- OR -</p>
+            <a href="#" class="btn btn-primary">
+              <i class="bi bi-facebook me-2"></i> Sign in using Facebook
+            </a>
+            <a href="#" class="btn btn-danger">
+              <i class="bi bi-google me-2"></i> Sign in using Google+
+            </a>
+          </div>
+          <!-- /.social-auth-links -->
+
+          <p class="mb-1">
+            <a href="forgot-password.html">I forgot my password</a>
+          </p>
+          <p class="mb-0">
+            <a href="register.html" class="text-center">
+              Register a new membership
+            </a>
+          </p>
+        </div>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
+    <!-- /.login-box -->
+
+    <Scripts path={path} />
+    <!--end::Script-->
+  </body><!--end::Body-->
+</html>
+
+  
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Ocorrências</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #1e1e1e; /* Fundo escuro */
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+            background-color: #2a2a2a; /* Fundo do gráfico mais escuro */
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quantidade de Ocorrências por Tipo</h2>
+    <canvas id="graficoOcorrencias"></canvas>
+
+    <script>
+        // Pegando o elemento canvas
+        const ctx = document.getElementById('graficoOcorrencias').getContext('2d');
+
+        // Dados do gráfico
+        const dadosOcorrencias = {
+            labels: ["Carro Mal Estacionado", "Carro Danificado", "Veículo Abandonado"],
+            datasets: [{
+                label: "Número de Ocorrências",
+                data: [50, 30, 20], // Substitua esses valores pelos seus dados reais
+                backgroundColor: ["#007bff", "#dc3545", "#ffc107"], // Azul, Vermelho, Amarelo
+                borderColor: ["#0056b3", "#a71d2a", "#d39e00"], // Tons mais escuros para a borda
+                borderWidth: 1
+            }]
+        };
+
+        // Criando o gráfico de barras com animações
+        const meuGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: dadosOcorrencias,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: "#ffffff" } // Cor do texto no eixo Y
+                    },
+                    x: {
+                        ticks: { color: "#ffffff" } // Cor do texto no eixo X
+                    }
+                },
+                animation: {
+                    duration: 1000, // Tempo da animação ao carregar (1s)
+                    easing: "easeInOutQuart"
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: "#ffffff" } // Cor do texto da legenda
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const label = dadosOcorrencias.labels[index];
+                        const value = dadosOcorrencias.datasets[0].data[index];
+
+                        alert(`Você clicou em "${label}" com ${value} ocorrências.`);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
